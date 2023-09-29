@@ -5,12 +5,12 @@ import { supabase } from 'supabase.config';
 @Injectable()
 export class TeachersService {
   async createTeacher(createTeacherDto: CreateTeacherDto): Promise<any> {
-    const { username, isactive, idInstitute, email, password } = createTeacherDto;
+    const { username, isactive, idInstitute, email, password, userType } = createTeacherDto;
 
     // Use Supabase to insert a new user into your table (adjust the table name)
     const { data, error } = await supabase
       .from('TEACHER') // Replace 'users' with your Supabase table name
-      .upsert([{ username, isactive, idInstitute, email, password }]);
+      .upsert([{ username, isactive, idInstitute, email, password, userType }]);
 
     if (error) {
       throw error;
@@ -61,4 +61,18 @@ export class TeachersService {
       throw error;
     }
   }
+
+  async findOneByEmailTeacher(email: string): Promise<any[]> {
+    const { data, error } = await supabase
+      .from('TEACHER')
+      .select('*')
+      .eq('email', email);
+  
+    if (error) {
+      throw error;
+    }
+  
+    return data;
+  }
+
 }

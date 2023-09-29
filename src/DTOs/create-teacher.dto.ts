@@ -6,4 +6,5 @@ export class CreateTeacherDto {
     readonly idInstitute: number;
     readonly email: string;
     readonly password: string;
+    readonly userType: 'teacher'
   }

@@ -4,13 +4,14 @@ import { supabase } from 'supabase.config';
 
 @Injectable()
 export class StudentsService {
-  async createStudent(createStudentDto: CreateStudentDto): Promise<any> {
-    const { username, isactive, ispublic, password } = createStudentDto;
 
-    // Use Supabase to insert a new user into your table (adjust the table name)
+  async createStudent(createStudentDto: CreateStudentDto): Promise<any> {
+    const { username, isactive, ispublic, idInstitute, email, userType, password } = createStudentDto;
+
+   
     const { data, error } = await supabase
-      .from('Students') // Replace 'users' with your Supabase table name
-      .upsert([{ username, isactive, ispublic, password }]);
+      .from('STUDENT')
+      .upsert([{ username, isactive, idInstitute, email, userType, password }]);
 
     if (error) {
       throw error;
@@ -20,7 +21,7 @@ export class StudentsService {
   }
 
   async getAllStudents(): Promise<any[]> {
-    const { data, error } = await supabase.from('Students').select('*');
+    const { data, error } = await supabase.from('STUDENT').select('*');
     if (error) {
       throw error;
     }
@@ -29,7 +30,7 @@ export class StudentsService {
 
   async updateStudent(id: number, updatedData: any): Promise<any> {
     const { data, error } = await supabase
-      .from('Students')
+      .from('STUDENT')
       .update(updatedData)
       .eq('id', id);
 
@@ -42,7 +43,7 @@ export class StudentsService {
 
   async getStudentById(id: number): Promise<any> {
     const { data, error } = await supabase
-      .from('Students')
+      .from('STUDENT')
       .select('*')
       .eq('id', id)
       .single();
@@ -55,10 +56,24 @@ export class StudentsService {
   }
 
   async deleteStudentById(id: number): Promise<void> {
-    const { error } = await supabase.from('Students').delete().eq('id', id);
+    const { error } = await supabase.from('STUDENT').delete().eq('id', id);
 
     if (error) {
       throw error;
     }
   }
+
+  async findOneByEmailStudent(email: string): Promise<any> {
+    const { data, error } = await supabase
+      .from('STUDENT')
+      .select('*')
+      .eq('email', email)
+
+    if (error) {
+      throw error;
+    }
+
+    return data;
+  }
+
 }
