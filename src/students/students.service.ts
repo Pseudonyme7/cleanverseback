@@ -1,24 +1,28 @@
 import { Injectable } from '@nestjs/common';
 import { CreateStudentDto } from 'src/DTOs/create-student.dto';
 import { supabase } from 'supabase.config';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class StudentsService {
 
   async createStudent(createStudentDto: CreateStudentDto): Promise<any> {
-    const { username, isactive, ispublic, idInstitute, email, userType, password } = createStudentDto;
-
-   
+    const { username, isActive, isPublic, idInstitute, email, userType, password } = createStudentDto;
+    
+    // Hasher le mot de passe
+    const hashedPassword = await bcrypt.hash(password, 10); // 10 est le nombre de tours de hachage, vous pouvez ajuster selon vos besoins
+  
     const { data, error } = await supabase
       .from('STUDENT')
-      .upsert([{ username, isactive, idInstitute, email, userType, password }]);
-
+      .upsert([{ username, isPublic, isActive, idInstitute, email, userType, password: hashedPassword }]);
+  
     if (error) {
       throw error;
     }
-
+  
     return data;
   }
+  
 
   async getAllStudents(): Promise<any[]> {
     const { data, error } = await supabase.from('STUDENT').select('*');
