@@ -4,6 +4,7 @@ import { StudentsService } from '../students/students.service';
 import { TeachersService } from '../teachers/teachers.service';
 import * as bcrypt from 'bcrypt';
 
+
 @Injectable()
 export class AuthService {
   private readonly logger = new Logger(AuthService.name);
@@ -16,11 +17,11 @@ export class AuthService {
   async validateUser(loginUserDto: any): Promise<any> {
     const { email, password } = loginUserDto;
     // je recherche les utilisateurs par l'email avec la fonction findByEmail... puis vérifie que le password correspond à l'email
-    const students = await this.studentsService.findByEmailStudent(email);
-    const teachers = await this.teachersService.findByEmailTeacher(email);
+    const teacher = await this.teachersService.findByEmailTeacher(email);
+    const student = await this.studentsService.findByEmailStudent(email);
 
-    if (students.length > 0) {
-      const student = students[0];
+    if (student) {
+      
       //ici je vérifie que les 2 mots de passe sont identiques en comparant les empreintes
       const isPasswordValid = await bcrypt.compare(password, student.password);
 
@@ -33,8 +34,8 @@ export class AuthService {
       }
     }
 
-    if (teachers.length > 0) {
-      const teacher = teachers[0];
+    if (teacher) {
+      
       //ici je vérifie que les 2 mots de passe sont identiques en comparant les empreintes
       const isPasswordValid = await bcrypt.compare(password, teacher.password);
 
@@ -46,6 +47,7 @@ export class AuthService {
         };
       }
     }
+    
     throw new UnauthorizedException('Invalid credentials');
   }
   //génération du token quand l'utilisateur est connecté

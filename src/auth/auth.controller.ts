@@ -1,5 +1,5 @@
 // auth.controller.ts
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Logger } from '@nestjs/common';
 import { Request, UnauthorizedException } from '@nestjs/common';
 import { AuthService } from './auth.service';
 
@@ -7,13 +7,12 @@ import { AuthService } from './auth.service';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-//Endpoint pour la connexion (login)
+  //Endpoint pour la connexion (login)
   @Post('login')
   async login(@Body() loginUserDto: any) {
     try {
       // Appel de la méthode validateUser du service AuthService pour valider les identifiants
       const user = await this.authService.validateUser(loginUserDto);
-
       // Génére un jeton d'authentification
       const token = await this.authService.generateToken(user);
       // Retourne le jeton d'authentification

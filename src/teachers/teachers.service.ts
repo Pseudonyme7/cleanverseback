@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { CreateTeacherDto } from 'src/DTOs/create-teacher.dto';
 import { supabase } from 'supabase.config';
 import * as bcrypt from 'bcrypt';
@@ -64,17 +64,16 @@ export class TeachersService {
     }
   }
 // fonction pour trouver un utilisateur par son email , je compare ensuite le mot de passe dans auth.service.ts
-  async findByEmailTeacher(email: string): Promise<any[]> {
+  async findByEmailTeacher(email: string): Promise<any> {
     const { data, error } = await supabase
       .from('TEACHER')
       .select('*')
-      .eq('email', email);
-  
+      .eq('email', email)
+      .single();
+
     if (error) {
-      throw error;
-    }
-  
+      Logger.log('Il n\'y à aucun teacher qui à cet email : teacher service ligne 95');
+    } 
     return data;
   }
-
 }

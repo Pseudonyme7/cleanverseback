@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { CreateStudentDto } from 'src/DTOs/create-student.dto';
 import { supabase } from 'supabase.config';
 import * as bcrypt from 'bcrypt';
+import { Logger } from '@nestjs/common'; 
 
 @Injectable()
 export class StudentsService {
@@ -87,10 +88,11 @@ export class StudentsService {
     const { data, error } = await supabase
       .from('STUDENT')
       .select('*')
-      .eq('email', email);
+      .eq('email', email)
+      .single();
 
     if (error) {
-      throw error;
+      Logger.log('Il n\'y à aucun étudiant qui à cet email : student service ligne 95');
     }
 
     return data;
