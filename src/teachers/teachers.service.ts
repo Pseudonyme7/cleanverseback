@@ -8,11 +8,10 @@ export class TeachersService {
     const { username, isactive, idInstitute, email, password, userType } = createTeacherDto;
 
      // Hasher le mot de passe
-     const hashedPassword = await bcrypt.hash(password, 10); // 10 est le nombre de tours de hachage, vous pouvez ajuster selon vos besoins
+     const hashedPassword = await bcrypt.hash(password, 10); // 10 est le nombre de tours de hachage, 
 
-    // Use Supabase to insert a new user into your table (adjust the table name)
     const { data, error } = await supabase
-      .from('TEACHER') // Replace 'users' with your Supabase table name
+      .from('TEACHER') 
       .upsert([{ username, isactive, idInstitute, email, password: hashedPassword , userType }]);
 
     if (error) {
@@ -64,8 +63,8 @@ export class TeachersService {
       throw error;
     }
   }
-
-  async findOneByEmailTeacher(email: string): Promise<any[]> {
+// fonction pour trouver un utilisateur par son email , je compare ensuite le mot de passe dans auth.service.ts
+  async findByEmailTeacher(email: string): Promise<any[]> {
     const { data, error } = await supabase
       .from('TEACHER')
       .select('*')

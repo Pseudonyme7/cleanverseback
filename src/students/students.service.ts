@@ -5,24 +5,40 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class StudentsService {
-
   async createStudent(createStudentDto: CreateStudentDto): Promise<any> {
-    const { username, isActive, isPublic, idInstitute, email, userType, password } = createStudentDto;
-    
+    const {
+      username,
+      isActive,
+      isPublic,
+      idInstitute,
+      email,
+      userType,
+      password,
+    } = createStudentDto;
+
     // Hasher le mot de passe
-    const hashedPassword = await bcrypt.hash(password, 10); // 10 est le nombre de tours de hachage, vous pouvez ajuster selon vos besoins
-  
+    const hashedPassword = await bcrypt.hash(password, 10); // 10 est le nombre de tours de hachage
+
     const { data, error } = await supabase
       .from('STUDENT')
-      .upsert([{ username, isPublic, isActive, idInstitute, email, userType, password: hashedPassword }]);
-  
+      .upsert([
+        {
+          username,
+          isPublic,
+          isActive,
+          idInstitute,
+          email,
+          userType,
+          password: hashedPassword,
+        },
+      ]);
+
     if (error) {
       throw error;
     }
-  
+
     return data;
   }
-  
 
   async getAllStudents(): Promise<any[]> {
     const { data, error } = await supabase.from('STUDENT').select('*');
@@ -66,12 +82,12 @@ export class StudentsService {
       throw error;
     }
   }
-
-  async findOneByEmailStudent(email: string): Promise<any> {
+  // fonction pour trouver un utilisateur par son email , je compare ensuite le mot de passe dans auth.service.ts
+  async findByEmailStudent(email: string): Promise<any> {
     const { data, error } = await supabase
       .from('STUDENT')
       .select('*')
-      .eq('email', email)
+      .eq('email', email);
 
     if (error) {
       throw error;
@@ -79,5 +95,4 @@ export class StudentsService {
 
     return data;
   }
-
 }
