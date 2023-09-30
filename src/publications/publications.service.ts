@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePublicationDto } from 'src/DTOs/create-publication.dto';
-import { supabase } from 'supabase.config';
+import { supabase, TABLE_NAMES } from 'supabase.config';
+
 
 @Injectable()
 export class PublicationsService {
@@ -8,7 +9,7 @@ export class PublicationsService {
         const { title, picture, level, message } = createPublicationDto;
     
         const { data, error } = await supabase
-            .from('PUBLICATION') 
+            .from(TABLE_NAMES.PUBLICATION) 
             .upsert([{ title, picture, level, message }]);
     
         if (error) {
@@ -20,7 +21,7 @@ export class PublicationsService {
     
 
   async getAllPublications(): Promise<any[]> {
-    const { data, error } = await supabase.from('PUBLICATION').select('*');
+    const { data, error } = await supabase.from(TABLE_NAMES.PUBLICATION).select('*');
     if (error) {
       throw error;
     }
@@ -29,7 +30,7 @@ export class PublicationsService {
 
   async updatePublication(id: number, updatedData: any): Promise<any> {
     const { data, error } = await supabase
-      .from('PUBLICATION')
+      .from(TABLE_NAMES.PUBLICATION)
       .update(updatedData)
       .eq('id', id);
 
@@ -42,7 +43,7 @@ export class PublicationsService {
 
   async getPublicationById(id: number): Promise<any> {
     const { data, error } = await supabase
-      .from('PUBLICATION')
+      .from(TABLE_NAMES.PUBLICATION)
       .select('*')
       .eq('id', id)
       .single();
@@ -55,7 +56,7 @@ export class PublicationsService {
   }
 
   async deletePublicationById(id: number): Promise<void> {
-    const { error } = await supabase.from('PUBLICATION').delete().eq('id', id);
+    const { error } = await supabase.from(TABLE_NAMES.PUBLICATION).delete().eq('id', id);
 
     if (error) {
       throw error;

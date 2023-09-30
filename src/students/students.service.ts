@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateStudentDto } from 'src/DTOs/create-student.dto';
-import { supabase } from 'supabase.config';
+import { supabase, TABLE_NAMES } from 'supabase.config';
 import * as bcrypt from 'bcrypt';
 import { Logger } from '@nestjs/common'; 
 
@@ -21,7 +21,7 @@ export class StudentsService {
     const hashedPassword = await bcrypt.hash(password, 10); // 10 est le nombre de tours de hachage
 
     const { data, error } = await supabase
-      .from('STUDENT')
+      .from(TABLE_NAMES.STUDENT)
       .upsert([
         {
           username,
@@ -42,7 +42,7 @@ export class StudentsService {
   }
 
   async getAllStudents(): Promise<any[]> {
-    const { data, error } = await supabase.from('STUDENT').select('*');
+    const { data, error } = await supabase.from(TABLE_NAMES.STUDENT).select('*');
     if (error) {
       throw error;
     }
@@ -51,7 +51,7 @@ export class StudentsService {
 
   async updateStudent(id: number, updatedData: any): Promise<any> {
     const { data, error } = await supabase
-      .from('STUDENT')
+      .from(TABLE_NAMES.STUDENT)
       .update(updatedData)
       .eq('id', id);
 
@@ -64,7 +64,7 @@ export class StudentsService {
 
   async getStudentById(id: number): Promise<any> {
     const { data, error } = await supabase
-      .from('STUDENT')
+      .from(TABLE_NAMES.STUDENT)
       .select('*')
       .eq('id', id)
       .single();
@@ -77,7 +77,7 @@ export class StudentsService {
   }
 
   async deleteStudentById(id: number): Promise<void> {
-    const { error } = await supabase.from('STUDENT').delete().eq('id', id);
+    const { error } = await supabase.from(TABLE_NAMES.STUDENT).delete().eq('id', id);
 
     if (error) {
       throw error;
@@ -86,7 +86,7 @@ export class StudentsService {
   // fonction pour trouver un utilisateur par son email , je compare ensuite le mot de passe dans auth.service.ts
   async findByEmailStudent(email: string): Promise<any> {
     const { data, error } = await supabase
-      .from('STUDENT')
+      .from(TABLE_NAMES.STUDENT)
       .select('*')
       .eq('email', email)
       .single();
