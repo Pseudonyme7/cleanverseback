@@ -12,10 +12,14 @@ import { NotificationsController } from './notifications/notifications.controlle
 import { NotificationsService } from './notifications/notifications.service';
 import { PublicationsController } from './publications/publications.controller';
 import { PublicationsService } from './publications/publications.service';
+import { AudiosController } from './audios/audios.controller';
+import { AudiosService } from './audios/audios.service';
+import { InstitutesController } from './institutes/institutes.controller';
+import { InstitutesService } from './institutes/institutes.service';
 
 @Module({
   imports: [AuthModule],
-  controllers: [AppController, StudentsController, TeachersController, AuthController, PublicationsController, NotificationsController],
-  providers: [AppService, StudentsService, TeachersService, AuthService, NotificationsService, PublicationsService],
+  controllers: [AppController, StudentsController, TeachersController, AuthController, PublicationsController, NotificationsController, AudiosController, InstitutesController],
+  providers: [AppService, StudentsService, TeachersService, AuthService, NotificationsService, PublicationsService, AudiosService, InstitutesService],
 })
 export class AppModule {}
