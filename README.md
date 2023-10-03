@@ -9,7 +9,7 @@
 
 ## Description
 
-Messed up is the world we live in but with true determination i'll fight the tyranny of evil.
+Messed up is the world we live in but with true determination i'll fight the tyranny of evil !
 
 ## Installation
 
