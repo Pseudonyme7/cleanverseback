@@ -13,8 +13,8 @@ export class StudentsService {
       isPublic,
       idInstitute,
       email,
-      userType,
       password,
+      isTeacher,
     } = createStudentDto;
 
     // Hasher le mot de passe
@@ -29,8 +29,8 @@ export class StudentsService {
           isActive,
           idInstitute,
           email,
-          userType,
           password: hashedPassword,
+          isTeacher,
         },
       ]);
 

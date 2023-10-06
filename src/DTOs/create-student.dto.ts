@@ -6,6 +6,6 @@ export class CreateStudentDto {
   readonly isActive: boolean;
   readonly idInstitute: number;
   readonly email: string;
-  readonly userType: 'student'
   readonly password: string;
+  readonly isTeacher: boolean;
 }

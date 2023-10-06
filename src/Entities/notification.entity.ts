@@ -9,5 +9,6 @@ export class Notification {
     surate: string;
     verseStart: string;
     verseEnd: string;
+    nbAudio: number;
     // Add other properties as needed
   }
