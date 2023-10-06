@@ -8,4 +8,5 @@ export class CreateNotificationDto {
     readonly surate: string;
     readonly verseStart: string;
     readonly verseEnd: string;
+    readonly nbAudio: number;
   }

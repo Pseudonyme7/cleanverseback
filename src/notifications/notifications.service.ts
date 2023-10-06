@@ -6,11 +6,11 @@ import { supabase, TABLE_NAMES } from 'supabase.config';
 @Injectable()
 export class NotificationsService {
     async createNotification(createNotificationDto: CreateNotificationDto): Promise<any> {
-        const { createdAt, idAudio, idStudent, idInstitute, surate, verseStart, verseEnd } = createNotificationDto;
+        const { createdAt, idAudio, idStudent, idInstitute, surate, verseStart, verseEnd, nbAudio } = createNotificationDto;
     
         const { data, error } = await supabase
             .from(TABLE_NAMES.NOTIFICATION) 
-            .upsert([{ createdAt, idAudio, idStudent, idInstitute, surate, verseStart, verseEnd }]);
+            .upsert([{ createdAt, idAudio, idStudent, idInstitute, surate, verseStart, verseEnd, nbAudio }]);
     
         if (error) {
             throw error;

@@ -6,14 +6,14 @@ import * as bcrypt from 'bcrypt';
 @Injectable()
 export class TeachersService {
   async createTeacher(createTeacherDto: CreateTeacherDto): Promise<any> {
-    const { username, isactive, idInstitute, email, password, userType } = createTeacherDto;
+    const { username, isactive, idInstitute, email, password, isTeacher } = createTeacherDto;
 
      // Hasher le mot de passe
      const hashedPassword = await bcrypt.hash(password, 10); // 10 est le nombre de tours de hachage, 
 
     const { data, error } = await supabase
       .from(TABLE_NAMES.TEACHER) 
-      .upsert([{ username, isactive, idInstitute, email, password: hashedPassword , userType }]);
+      .upsert([{ username, isactive, idInstitute, email, password: hashedPassword , isTeacher }]);
 
     if (error) {
       throw error;
