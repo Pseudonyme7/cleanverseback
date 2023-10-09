@@ -6,11 +6,11 @@ import { supabase, TABLE_NAMES } from 'supabase.config';
 @Injectable()
 export class PublicationsService {
     async createPublication(createPublicationDto: CreatePublicationDto): Promise<any> {
-        const { title, picture, level, message } = createPublicationDto;
+        const { title, level, message } = createPublicationDto;
     
         const { data, error } = await supabase
             .from(TABLE_NAMES.PUBLICATION) 
-            .upsert([{ title, picture, level, message }]);
+            .upsert([{ title, level, message }]);
     
         if (error) {
             throw error;
