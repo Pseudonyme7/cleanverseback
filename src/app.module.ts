@@ -16,10 +16,12 @@ import { AudiosController } from './audios/audios.controller';
 import { AudiosService } from './audios/audios.service';
 import { InstitutesController } from './institutes/institutes.controller';
 import { InstitutesService } from './institutes/institutes.service';
+import { TraceAudioController } from './trace-audio/trace-audio.controller';
+import { TraceAudioService } from './trace-audio/trace-audio.service';
 
 @Module({
   imports: [AuthModule],
-  controllers: [AppController, StudentsController, TeachersController, AuthController, PublicationsController, NotificationsController, AudiosController, InstitutesController],
-  providers: [AppService, StudentsService, TeachersService, AuthService, NotificationsService, PublicationsService, AudiosService, InstitutesService],
+  controllers: [AppController, StudentsController, TeachersController, AuthController, PublicationsController, NotificationsController, AudiosController, InstitutesController, TraceAudioController],
+  providers: [AppService, StudentsService, TeachersService, AuthService, NotificationsService, PublicationsService, AudiosService, InstitutesService, TraceAudioService],
 })
 export class AppModule {}
